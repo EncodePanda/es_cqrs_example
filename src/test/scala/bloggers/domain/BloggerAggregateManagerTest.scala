@@ -4,6 +4,7 @@ import akka.actor.{ActorRef, ActorSystem}
 import akka.testkit.TestActorRef
 import akka.util.Timeout
 import bloggers.domain.AggregateRoot.Command
+import bloggers.domain.BloggerAggregateManager.{Do, Begin, AppCmd}
 import scala.concurrent.duration._
 import scala.concurrent.{Future, Await}
 import org.scalatest.{Matchers, BeforeAndAfterAll, FunSuite}
@@ -30,7 +31,7 @@ class BloggerAggregateManagerTest extends FunSuite with Matchers with BeforeAndA
     val manager = TestActorRef(BloggerAggregateManager.props)
     val childrensCount = manager.children.size
     // when
-    manager ! Initialize("paul", "szulc")
+    manager ! Begin(Initialize("paul", "szulc"))
     // then
     manager.children.size should equal(childrensCount + 1)
   }
@@ -39,16 +40,34 @@ class BloggerAggregateManagerTest extends FunSuite with Matchers with BeforeAndA
     // given
     implicit val manager = TestActorRef(BloggerAggregateManager.props)
     // when
-    commanded(Initialize("paul", "szulc")) {
-      // then
-      case Blogger(_, "paul", "szulc") =>
+    val blogger = commanded(Begin(Initialize("paul", "szulc")))
+    // then
+    blogger match {
+      case Blogger(_, "paul", "szulc", _) =>
       case sthElse => fail("not a blogger we've expected, got " + sthElse)
     }
   }
 
-  private def commanded(command: Command)(after: Blogger => Any)(implicit manager: ActorRef): Unit = {
-    val future = (manager ? command).mapTo[Blogger]
-    val blogger = Await.result(future, 2 seconds)
-    after(blogger)
+  test("that two bloggers can be befriended") {
+    // given
+    implicit val manager = TestActorRef(BloggerAggregateManager.props)
+    val paul = commanded(Begin(Initialize("paul", "szulc")))
+    // when
+    val magda = commanded(Begin(Initialize("magda", "szulc")), id => Seq(Do(id, Befriend(paul.id))))
+    // then
+    magda match {
+      case Blogger(magda.id, "magda", "szulc", List(paul.id)) =>
+    }
+  }
+
+  private def commanded(initial: AppCmd, seq: (String) => Seq[AppCmd] = (id => Seq.empty))
+                       (implicit manager: ActorRef): Blogger = {
+    val future = (manager ? initial).mapTo[Blogger]
+    val initialState = Await.result(future, 2 seconds)
+    seq(initialState.id).foldLeft(initialState) {
+      case (state, cmd) =>
+        val future = (manager ? cmd).mapTo[Blogger]
+        Await.result(future, 2 seconds)
+    }
   }
 }
