@@ -4,7 +4,9 @@ import akka.actor.{ActorRef, ActorSystem}
 import akka.testkit.TestActorRef
 import akka.util.Timeout
 import bloggers.domain.AggregateRoot.Command
-import bloggers.domain.BloggerAggregateManager.{Do, Begin, AppCmd}
+import bloggers.domain.blogger.{BloggerAggregateManager, BloggerAggregate}
+import BloggerAggregateManager.{Do, Begin, AppCmd}
+import bloggers.domain.blogger.BloggerAggregate
 import scala.concurrent.duration._
 import scala.concurrent.{Future, Await}
 import org.scalatest.{Matchers, BeforeAndAfterAll, FunSuite}
@@ -12,7 +14,7 @@ import akka.pattern.ask
 
 class BloggerAggregateManagerTest extends FunSuite with Matchers with BeforeAndAfterAll {
 
-  import bloggers.domain.BloggerAggregate._
+  import BloggerAggregate._
 
   implicit val actorySystem = ActorSystem("bloggerTestActorSystem")
 

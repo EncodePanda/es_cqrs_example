@@ -1,11 +1,12 @@
-package bloggers.domain
+package bloggers.domain.blogger
 
 import akka.actor.Props
+import bloggers.domain.AggregateRoot
 
 
 object BloggerAggregate {
 
-  import AggregateRoot._
+  import bloggers.domain.AggregateRoot._
 
   case class Blogger(id: String, firstName: String, lastName: String, friends: List[String] = List()) extends State
 
@@ -25,8 +26,8 @@ object BloggerAggregate {
 
 class BloggerAggregate(id: String) extends AggregateRoot {
 
-  import BloggerAggregate._
-  import AggregateRoot._
+  import bloggers.domain.BloggerAggregate._
+  import bloggers.domain.blogger.BloggerAggregate._
 
   override def persistenceId: String = id
 
