@@ -60,6 +60,18 @@ class BloggerAggregateManagerTest extends FunSuite with Matchers with BeforeAndA
     }
   }
 
+  test("that blogger can unfriend blogger") {
+    // given
+    implicit val manager = TestActorRef(BloggerAggregateManager.props)
+    val paul = commanded(Begin(Initialize("paul", "szulc")))
+    val magda = commanded(Begin(Initialize("magda", "szulc")), id => Seq(Do(id, Befriend(paul.id)), Do(id, Unfriend(paul.id))))
+    // when
+    // then
+    magda match {
+      case Blogger(magda.id, "magda", "szulc", List()) =>
+    }
+  }
+
   private def commanded(initial: AppCmd, seq: (String) => Seq[AppCmd] = (id => Seq.empty))
                        (implicit manager: ActorRef): Blogger = {
     val future = (manager ? initial).mapTo[Blogger]
