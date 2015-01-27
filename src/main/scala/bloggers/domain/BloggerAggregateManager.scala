@@ -1,8 +1,11 @@
-package bloggers.domain.blogger
+package bloggers.domain
+
+import java.util.UUID
 
 import akka.actor.Props
-import bloggers.domain.AggregateManager
 import bloggers.domain.AggregateRoot.Command
+import bloggers.domain.BloggerAggregate.Initialize
+import bloggers.domain.BloggerAggregateManager.{Do, Begin}
 
 
 object BloggerAggregateManager {

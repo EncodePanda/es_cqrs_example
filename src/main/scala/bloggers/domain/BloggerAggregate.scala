@@ -1,23 +1,20 @@
-package bloggers.domain.blogger
+package bloggers.domain
 
 import akka.actor.Props
-import bloggers.domain.AggregateRoot
 
 
 object BloggerAggregate {
 
-  import bloggers.domain.AggregateRoot._
+  import AggregateRoot._
 
   case class Blogger(id: String, firstName: String, lastName: String, friends: List[String] = List()) extends State
 
   case class Initialize(firstName: String, lastName: String) extends Command
   case class Befriend(friendId: String) extends Command
-
   case class Unfriend(friendId: String) extends Command
 
   case class Initialized(firstName: String, lastName: String) extends Event
   case class Befriended(friendId: String) extends Event
-
   case class Unfriended(friendId: String) extends Event
 
   def props(id: String): Props = Props(new BloggerAggregate(id))
@@ -26,8 +23,8 @@ object BloggerAggregate {
 
 class BloggerAggregate(id: String) extends AggregateRoot {
 
-  import bloggers.domain.BloggerAggregate._
-  import bloggers.domain.blogger.BloggerAggregate._
+  import BloggerAggregate._
+  import AggregateRoot._
 
   override def persistenceId: String = id
 
