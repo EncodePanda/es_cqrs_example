@@ -6,6 +6,8 @@ import akka.actor.Props
 import bloggers.domain.AggregateRoot.Command
 import bloggers.domain.BloggerAggregate.Initialize
 import bloggers.domain.BloggerAggregateManager.{Do, Begin}
+import bloggers.readmodel.BloggerPersistentView
+import bloggers.readmodel.query.api.QueryFindAllBloggers
 
 
 object BloggerAggregateManager {
@@ -16,10 +18,10 @@ object BloggerAggregateManager {
 
   case class Do(id: String, command: Command) extends AppCmd
 
-  def props: Props = Props(new BloggerAggregateManager)
+  def props(findAll: QueryFindAllBloggers): Props = Props(new BloggerAggregateManager(findAll))
 }
 
-class BloggerAggregateManager extends AggregateManager {
+class BloggerAggregateManager(findAll: QueryFindAllBloggers) extends AggregateManager {
 
   override def processCommand: Receive = {
     case begin: Begin => processAggregateCommand(generateGlobalId, begin.init)
@@ -27,4 +29,6 @@ class BloggerAggregateManager extends AggregateManager {
   }
 
   override def aggregateProps(id: String): Props = BloggerAggregate.props(id)
+
+  override def viewProps(id: String): Option[Props] = Some(BloggerPersistentView.props(id, findAll))
 }

@@ -65,10 +65,13 @@ trait AggregateManager extends Actor with ActorLogging {
     killChildrenIfNecessary()
     val agg = context.actorOf(aggregateProps(id), id)
     context watch agg
+    viewProps(id).map(context.actorOf(_))
     agg
   }
 
   def aggregateProps(id: String): Props
+
+  def viewProps(id: String): Option[Props]
 
   private def killChildrenIfNecessary() = {
     val childrenCount = context.children.size - childrenBeingTerminated.size
