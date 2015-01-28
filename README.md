@@ -25,5 +25,5 @@ make akka-persistence only an pluggable infrastructure, decoupling it from ES+CQ
 
 When I've started developing this project I was visiting Gdansk (Poland), where my wife was attending a huge conference
 for blogging community. As I was looking for a domain problem for this project, bloggers were as good as any other,
-but they were really appleaing since they constatly interact with each other and application that could trace the history
+but they were really appealing since they constantly interact with each other and application that could trace the history
 of such events seemed ok.
