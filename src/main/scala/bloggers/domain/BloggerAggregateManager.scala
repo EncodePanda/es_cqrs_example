@@ -7,7 +7,7 @@ import bloggers.domain.AggregateRoot.Command
 import bloggers.domain.BloggerAggregate.Initialize
 import bloggers.domain.BloggerAggregateManager.{Do, Begin}
 import bloggers.readmodel.BloggerPersistentView
-import bloggers.readmodel.query.api.QueryFindAllBloggers
+import bloggers.readmodel.query.api.FindAllBloggersRM
 
 
 object BloggerAggregateManager {
@@ -18,10 +18,10 @@ object BloggerAggregateManager {
 
   case class Do(id: String, command: Command) extends AppCmd
 
-  def props(findAll: QueryFindAllBloggers): Props = Props(new BloggerAggregateManager(findAll))
+  def props(findAll: FindAllBloggersRM): Props = Props(new BloggerAggregateManager(findAll))
 }
 
-class BloggerAggregateManager(findAll: QueryFindAllBloggers) extends AggregateManager {
+class BloggerAggregateManager(findAll: FindAllBloggersRM) extends AggregateManager {
 
   override def processCommand: Receive = {
     case begin: Begin => processAggregateCommand(generateGlobalId, begin.init)

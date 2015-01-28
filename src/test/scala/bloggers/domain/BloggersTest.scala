@@ -5,7 +5,7 @@ import akka.pattern.ask
 import akka.testkit.TestActorRef
 import akka.util.Timeout
 import bloggers.domain.BloggerAggregateManager.{AppCmd, Begin, Do}
-import bloggers.readmodel.query.api.QueryFindAllBloggers
+import bloggers.readmodel.query.api.FindAllBloggersRM
 import bloggers.readmodel.query.inmem.InMemFindAllBloggersRM
 import org.scalatest.{BeforeAndAfter, BeforeAndAfterAll, FunSuite, Matchers}
 
@@ -24,7 +24,7 @@ class BloggersTest extends FunSuite with Matchers with BeforeAndAfterAll with Be
 
   implicit val executionContext = actorySystem.dispatcher
 
-  val findAllQuery: QueryFindAllBloggers = new InMemFindAllBloggersRM
+  val findAllQuery: FindAllBloggersRM = new InMemFindAllBloggersRM
 
   before {
     findAllQuery.clear

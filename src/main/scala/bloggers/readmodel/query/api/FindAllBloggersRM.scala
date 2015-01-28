@@ -1,9 +1,9 @@
 package bloggers.readmodel.query.api
 
 
-trait QueryFindAllBloggers {
+trait FindAllBloggersRM {
 
-  import bloggers.readmodel.query.api.QueryFindAllBloggers.Blogger
+  import bloggers.readmodel.query.api.FindAllBloggersRM.Blogger
 
   def insertBlogger(blogger: Blogger)
 
@@ -12,7 +12,7 @@ trait QueryFindAllBloggers {
   def clear: Unit
 }
 
-object QueryFindAllBloggers {
+object FindAllBloggersRM {
 
   case class Blogger(id: String, firstName: String, lastName: String)
 
