@@ -3,7 +3,7 @@ package bloggers.readmodel.query.inmem
 import bloggers.readmodel.query.api.QueryFindAllBloggers
 import bloggers.readmodel.query.api.QueryFindAllBloggers.Blogger
 
-class InMemQueryFindAllBloggers extends QueryFindAllBloggers {
+class InMemFindAllBloggersRM extends QueryFindAllBloggers {
 
   var internal = Map[String, Blogger]()
 
