@@ -72,7 +72,9 @@ class BloggersTest extends FunSuite with Matchers with BeforeAndAfterAll with Be
     // given
     implicit val manager = createManager
     val paul = commanded(Begin(Initialize("paul", "szulc")))
-    val magda = commanded(Begin(Initialize("magda", "szulc")), id => Seq(Do(id, Befriend(paul.id)), Do(id, Unfriend(paul.id))))
+    val magda = commanded(Begin(Initialize("magda", "szulc")), id => Seq(
+      Do(id, Befriend(paul.id)),
+      Do(id, Unfriend(paul.id))))
     // when
     // then
     magda match {
