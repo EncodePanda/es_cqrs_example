@@ -1,6 +1,8 @@
 package bloggers.domain
 
-import akka.actor.{ActorRef, ActorSystem}
+import java.io.File
+
+import akka.actor.{Props, ActorRef, ActorSystem}
 import akka.pattern.ask
 import akka.testkit.TestActorRef
 import akka.util.Timeout
@@ -11,6 +13,7 @@ import org.scalatest.{BeforeAndAfter, BeforeAndAfterAll, FunSuite, Matchers}
 
 import scala.concurrent.Await
 import scala.concurrent.duration._
+
 
 class BloggersTest extends FunSuite with Matchers with BeforeAndAfterAll with BeforeAndAfter {
 
@@ -51,7 +54,7 @@ class BloggersTest extends FunSuite with Matchers with BeforeAndAfterAll with Be
     val blogger = commanded(Begin(Initialize("paul", "szulc")))
     // then
     blogger match {
-      case Blogger(_, "paul", "szulc", _) =>
+      case Blogger(_, "paul", "szulc", _, _) =>
       case sthElse => fail("not a blogger we've expected, got " + sthElse)
     }
   }
@@ -64,7 +67,7 @@ class BloggersTest extends FunSuite with Matchers with BeforeAndAfterAll with Be
     val magda = commanded(Begin(Initialize("magda", "szulc")), id => Seq(Do(id, Befriend(paul.id))))
     // then
     magda match {
-      case Blogger(magda.id, "magda", "szulc", List(paul.id)) =>
+      case Blogger(magda.id, "magda", "szulc", List(paul.id), List()) =>
     }
   }
 
@@ -78,7 +81,19 @@ class BloggersTest extends FunSuite with Matchers with BeforeAndAfterAll with Be
     // when
     // then
     magda match {
-      case Blogger(magda.id, "magda", "szulc", List()) =>
+      case Blogger(magda.id, "magda", "szulc", List(), List()) =>
+    }
+  }
+
+  test("that two bloggers can become enemies") {
+    // given
+    implicit val manager = createManager
+    val eric = commanded(Begin(Initialize("eric", "cartman")))
+    // when
+    val paul = commanded(Begin(Initialize("paul", "szulc")), id => Seq(Do(id, MakeEnemy(eric.id))))
+    // then
+    paul match {
+      case Blogger(paul.id, "paul", "szulc", List(), List(eric.id)) =>
     }
   }
 
@@ -92,7 +107,7 @@ class BloggersTest extends FunSuite with Matchers with BeforeAndAfterAll with Be
     // TODO can we do better then sleep?
     Thread.sleep(6000)
     // TODO think how to clean journal between tests
-    findAllQuery.query.size should equal(7)
+    findAllQuery.query.size should equal(9)
   }
 
   private def commanded(initial: AppCmd, seq: (String) => Seq[AppCmd] = (id => Seq.empty))

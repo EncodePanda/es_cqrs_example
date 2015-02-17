@@ -7,15 +7,24 @@ object BloggerAggregate {
 
   import AggregateRoot._
 
-  case class Blogger(id: String, firstName: String, lastName: String, friends: List[String] = List()) extends State
+  case class Blogger(id: String,
+                     firstName: String,
+                     lastName: String,
+                     friends: List[String] = List(),
+                     enemies: List[String] = List()
+  ) extends State
 
   case class Initialize(firstName: String, lastName: String) extends Command
   case class Befriend(friendId: String) extends Command
   case class Unfriend(friendId: String) extends Command
+  case class MakeEnemy(enemyId: String) extends Command
+  case class UnmakeEnemy(enemyId: String) extends Command
 
   case class Initialized(firstName: String, lastName: String) extends Event
   case class Befriended(friendId: String) extends Event
   case class Unfriended(friendId: String) extends Event
+  case class MadeEnemy(enemyId: String) extends Event
+  case class UnmadeEnemy(enemyId: String) extends Event
 
   def props(id: String): Props = Props(new BloggerAggregate(id))
 }
@@ -38,7 +47,9 @@ class BloggerAggregate(id: String) extends AggregateRoot {
     case Unfriended(fId) =>
       val blogger = state.asInstanceOf[Blogger]
       state = blogger.copy(friends = blogger.friends.filter(_ != fId))
-
+    case MadeEnemy(eId) =>
+      val blogger = state.asInstanceOf[Blogger]
+      state = blogger.copy(enemies = eId :: blogger.enemies)
   }
 
   def init: Receive = {
@@ -51,6 +62,8 @@ class BloggerAggregate(id: String) extends AggregateRoot {
       persist(Befriended(friendId))(afterEventPersisted)
     case Unfriend(friendId) =>
       persist(Unfriended(friendId))(afterEventPersisted)
+    case MakeEnemy(enemyId) =>
+      persist(MadeEnemy(enemyId))(afterEventPersisted)
   }
 
   override def receiveCommand: Receive = init
