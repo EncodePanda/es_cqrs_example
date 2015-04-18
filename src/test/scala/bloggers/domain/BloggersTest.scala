@@ -54,7 +54,7 @@ class BloggersTest extends FunSuite with Matchers with BeforeAndAfterAll with Be
     val blogger = commanded(Begin(Initialize("paul", "szulc")))
     // then
     blogger match {
-      case Blogger(_, "paul", "szulc", _, _) =>
+      case Blogger(_, "paul", "szulc", _, _, true) =>
       case sthElse => fail("not a blogger we've expected, got " + sthElse)
     }
   }
@@ -67,7 +67,7 @@ class BloggersTest extends FunSuite with Matchers with BeforeAndAfterAll with Be
     val magda = commanded(Begin(Initialize("magda", "szulc")), id => Seq(Do(id, Befriend(paul.id))))
     // then
     magda match {
-      case Blogger(magda.id, "magda", "szulc", List(paul.id), List()) =>
+      case Blogger(magda.id, "magda", "szulc", List(paul.id), List(), _) =>
     }
   }
 
@@ -81,7 +81,7 @@ class BloggersTest extends FunSuite with Matchers with BeforeAndAfterAll with Be
     // when
     // then
     magda match {
-      case Blogger(magda.id, "magda", "szulc", List(), List()) =>
+      case Blogger(magda.id, "magda", "szulc", List(), List(), _) =>
     }
   }
 
@@ -93,7 +93,18 @@ class BloggersTest extends FunSuite with Matchers with BeforeAndAfterAll with Be
     val paul = commanded(Begin(Initialize("paul", "szulc")), id => Seq(Do(id, MakeEnemy(eric.id))))
     // then
     paul match {
-      case Blogger(paul.id, "paul", "szulc", List(), List(eric.id)) =>
+      case Blogger(paul.id, "paul", "szulc", List(), List(eric.id), _) =>
+    }
+  }
+
+  test("that blogger can deactivate account") {
+    // given
+    implicit val manager = createManager
+    // when
+    val paul = commanded(Begin(Initialize("paul", "szulc")), id => Seq(Do(id, Deactivate("because i say so"))))
+    // then
+    paul match {
+      case Blogger(paul.id, "paul", "szulc", List(), List(), false) =>
     }
   }
 
@@ -107,7 +118,7 @@ class BloggersTest extends FunSuite with Matchers with BeforeAndAfterAll with Be
     // TODO can we do better then sleep?
     Thread.sleep(6000)
     // TODO think how to clean journal between tests
-    findAllQuery.query.size should equal(9)
+    findAllQuery.query.size should equal(10)
   }
 
   private def commanded(initial: AppCmd, seq: (String) => Seq[AppCmd] = (id => Seq.empty))
