@@ -1,7 +1,7 @@
-package bloggers.attempt1.readmodel.query.inmem
+package bloggers.build_on_top_ap.readmodel.query.inmem
 
-import bloggers.attempt1.readmodel.query.api.FindAllBloggersRM
-import bloggers.attempt1.readmodel.query.api.FindAllBloggersRM.Blogger
+import bloggers.build_on_top_ap.readmodel.query.api.FindAllBloggersRM
+import bloggers.build_on_top_ap.readmodel.query.api.FindAllBloggersRM.Blogger
 
 class InMemFindAllBloggersRM extends FindAllBloggersRM {
 

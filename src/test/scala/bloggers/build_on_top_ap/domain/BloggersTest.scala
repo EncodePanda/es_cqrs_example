@@ -1,4 +1,4 @@
-package bloggers.attempt1.domain
+package bloggers.build_on_top_ap.domain
 
 import java.io.File
 
@@ -6,9 +6,9 @@ import akka.actor.{Props, ActorRef, ActorSystem}
 import akka.pattern.ask
 import akka.testkit.TestActorRef
 import akka.util.Timeout
-import bloggers.attempt1.domain.BloggerAggregateManager.{AppCmd, Begin, Do}
-import bloggers.attempt1.readmodel.query.api.FindAllBloggersRM
-import bloggers.attempt1.readmodel.query.inmem.InMemFindAllBloggersRM
+import bloggers.build_on_top_ap.domain.BloggerAggregateManager.{AppCmd, Begin, Do}
+import bloggers.build_on_top_ap.readmodel.query.api.FindAllBloggersRM
+import bloggers.build_on_top_ap.readmodel.query.inmem.InMemFindAllBloggersRM
 import org.scalatest.{BeforeAndAfter, BeforeAndAfterAll, FunSuite, Matchers}
 
 import scala.concurrent.Await
@@ -17,7 +17,7 @@ import scala.concurrent.duration._
 
 class BloggersTest extends FunSuite with Matchers with BeforeAndAfterAll with BeforeAndAfter {
 
-  import bloggers.attempt1.domain.BloggerAggregate._
+  import bloggers.build_on_top_ap.domain.BloggerAggregate._
 
   implicit val actorySystem = ActorSystem("bloggerTestActorSystem")
 

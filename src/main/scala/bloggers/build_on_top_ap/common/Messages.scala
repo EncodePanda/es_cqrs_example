@@ -1,4 +1,4 @@
-package bloggers.attempt1.common
+package bloggers.build_on_top_ap.common
 
 case class Error(message: String)
 

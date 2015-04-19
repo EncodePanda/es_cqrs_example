@@ -1,9 +1,9 @@
-package bloggers.attempt1.domain
+package bloggers.build_on_top_ap.domain
 
 import akka.actor.Actor.Receive
 import akka.actor.ActorLogging
 import akka.persistence.{PersistentActor, SnapshotMetadata, SnapshotOffer}
-import bloggers.attempt1.common.Acknowledge
+import bloggers.build_on_top_ap.common.Acknowledge
 
 
 object AggregateRoot {

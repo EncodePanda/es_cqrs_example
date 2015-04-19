@@ -1,4 +1,4 @@
-package bloggers.attempt1.domain
+package bloggers.build_on_top_ap.domain
 
 import akka.actor.Props
 
