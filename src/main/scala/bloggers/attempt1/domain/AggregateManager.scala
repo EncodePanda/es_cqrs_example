@@ -1,4 +1,4 @@
-package bloggers.domain
+package bloggers.attempt1.domain
 
 import java.util.UUID
 

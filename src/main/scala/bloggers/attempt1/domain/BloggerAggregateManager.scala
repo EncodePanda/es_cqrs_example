@@ -1,13 +1,13 @@
-package bloggers.domain
+package bloggers.attempt1.domain
 
 import java.util.UUID
 
 import akka.actor.Props
-import bloggers.domain.AggregateRoot.Command
-import bloggers.domain.BloggerAggregate.Initialize
-import bloggers.domain.BloggerAggregateManager.{Do, Begin}
-import bloggers.readmodel.BloggerPersistentView
-import bloggers.readmodel.query.api.FindAllBloggersRM
+import bloggers.attempt1.domain.AggregateRoot.Command
+import bloggers.attempt1.domain.BloggerAggregate.Initialize
+import bloggers.attempt1.domain.BloggerAggregateManager.{Do, Begin}
+import bloggers.attempt1.readmodel.BloggerPersistentView
+import bloggers.attempt1.readmodel.query.api.FindAllBloggersRM
 
 
 object BloggerAggregateManager {

@@ -1,9 +1,9 @@
-package bloggers.readmodel.query.api
+package bloggers.attempt1.readmodel.query.api
 
 
 trait FindAllBloggersRM {
 
-  import bloggers.readmodel.query.api.FindAllBloggersRM.Blogger
+  import bloggers.attempt1.readmodel.query.api.FindAllBloggersRM.Blogger
 
   def insertBlogger(blogger: Blogger)
 

@@ -1,9 +1,9 @@
-package bloggers.readmodel
+package bloggers.attempt1.readmodel
 
 import akka.actor.Props
 import akka.persistence.PersistentView
-import bloggers.domain.BloggerAggregate
-import bloggers.readmodel.query.api.FindAllBloggersRM
+import bloggers.attempt1.domain.BloggerAggregate
+import bloggers.attempt1.readmodel.query.api.FindAllBloggersRM
 
 object BloggerPersistentView {
   def props(id: String, findAll: FindAllBloggersRM): Props = Props(new BloggerPersistentView(id, findAll))
