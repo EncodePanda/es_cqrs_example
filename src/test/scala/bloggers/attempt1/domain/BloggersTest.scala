@@ -108,19 +108,6 @@ class BloggersTest extends FunSuite with Matchers with BeforeAndAfterAll with Be
     }
   }
 
-  test("that can list all bloggers") {
-    // given
-    implicit val manager = createManager
-    // when
-    val paul = commanded(Begin(Initialize("paul", "szulc")))
-    val magda = commanded(Begin(Initialize("magda", "szulc")))
-    //    then
-    // TODO can we do better then sleep?
-    Thread.sleep(6000)
-    // TODO think how to clean journal between tests
-    findAllQuery.query.size should equal(10)
-  }
-
   private def commanded(initial: AppCmd, seq: (String) => Seq[AppCmd] = (id => Seq.empty))
                        (implicit manager: ActorRef): Blogger = {
     val future = (manager ? initial).mapTo[Blogger]
