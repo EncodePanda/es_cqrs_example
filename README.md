@@ -1,7 +1,7 @@
-# es_cqrs_example_in_akka
+# es_cqrs_example
 
-Note: this is only quick description of the project. The project is still in early shape of development. And so is its
-documentation :)
+Note: this is only quick description of the project. The project is still in early shape of development. 
+And so is its documentation :)
 
 
 Sample application showing how Event Sourcing + CQRS can be implemented in Akka. This code is constantly improving since
