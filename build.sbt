@@ -22,6 +22,7 @@ libraryDependencies ++= {
   val akkaVersion = "2.3.5"
   Seq(
     "org.slf4j" % "slf4j-api" % "1.7.7",
+    "org.scalaz" %% "scalaz-core" % "7.1.1",
     "ch.qos.logback" % "logback-core" % "1.1.2",
     "ch.qos.logback" % "logback-classic" % "1.1.2",
     "com.typesafe.akka" %% "akka-actor" % akkaVersion,
