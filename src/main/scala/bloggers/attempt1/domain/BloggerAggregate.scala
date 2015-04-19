@@ -19,18 +19,14 @@ object BloggerAggregate {
   case class Befriend(friendId: String) extends Command
   case class Unfriend(friendId: String) extends Command
   case class MakeEnemy(enemyId: String) extends Command
-
   case class MakePeace(enemyId: String) extends Command
-
   case class Deactivate(reason: String) extends Command
 
   case class Initialized(firstName: String, lastName: String) extends Event
   case class Befriended(friendId: String) extends Event
   case class Unfriended(friendId: String) extends Event
   case class MadeEnemy(enemyId: String) extends Event
-
   case class MadePeace(enemyId: String) extends Event
-
   case class Deactivated(reason: String) extends Event
 
   def props(id: String): Props = Props(new BloggerAggregate(id))
