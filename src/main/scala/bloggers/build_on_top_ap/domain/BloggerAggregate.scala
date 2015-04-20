@@ -53,7 +53,7 @@ class BloggerAggregate(id: String) extends AggregateRoot {
     case MadeEnemy(eId) =>
       val blogger = state.asInstanceOf[Blogger]
       state = blogger.copy(enemies = eId :: blogger.enemies)
-    case Deactivated(reasoen) =>
+    case Deactivated(reason) =>
       context become deactivated
       val blogger = state.asInstanceOf[Blogger]
       state = blogger.copy(active = false)
