@@ -59,11 +59,14 @@ object Scripts extends Commands {
 
 }
 
+object Domain {
+  case class Blogger(id: Id, firstName: String, lastName: String, active: Boolean = true)
+}
+
 object PureInterpreter extends App {
   import Commands._
   import Events._
-
-  case class Blogger(id: Id, firstName: String, lastName: String, active: Boolean = true)
+  import Domain._
 
   val ID_GENERATOR = Id("1")
 
